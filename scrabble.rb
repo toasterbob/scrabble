@@ -240,6 +240,22 @@ class Scrabble
     check_left(row, col) + letter + check_right(row, col)
   end
 
+  double_letter = []
+  triple_letter = []
+
+  double_word = [[7,7], [1,1], [1,13], [13,1], [13,13], [2,2], [2,12], [12,2], [12,12],
+                 [3,3], [3,11], [11,3], [11,11], [4,4], [4,10], [10,4], [10,10]]
+
+  triple_word = [[0,0], [0,7], [0,14], [7,0], [14,0], [7,14], [14,7], [14,14]]
+
+
+  double_letter = {}
+  triple_letter = {}
+
+  double_word = {}
+  triple_word = {}
+
+
 end
 
 if __FILE__ == $PROGRAM_NAME
