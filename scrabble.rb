@@ -244,5 +244,9 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   game = Scrabble.new
-  p game 
+  p game
+  tiles = [{ letter: "h", row: 7, col: 7 }, { letter: "i", row: 7, col: 8 }]
+  score = game.play_tiles(tiles)
+  p game
+  p score #{:valid=>true, :score=>5}
 end
