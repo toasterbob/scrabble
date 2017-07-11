@@ -241,3 +241,8 @@ class Scrabble
   end
 
 end
+
+if __FILE__ == $PROGRAM_NAME
+  game = Scrabble.new
+  p game 
+end
