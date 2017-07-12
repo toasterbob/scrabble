@@ -17,7 +17,7 @@ class Scrabble
   def initialize
     @board = create_board
     @first_flag = true
-    @score = 0
+    @score = {}
   end
 
   def create_board
@@ -107,9 +107,9 @@ class Scrabble
   end
 
   def row_test(tiles)
-    row = tiles[0][:row]
-    first, last = tiles[0][:col], tiles[-1][:col]
-    return "" unless inbounds?(first) && inbounds?(last)
+    row = tiles[0][:row] #what row is it in?
+    first, last = tiles[0][:col], tiles[-1][:col] #first and last letter
+    return "" unless inbounds?(first) && inbounds?(last) # are they inbounds
 
     word = ""
     word_arr = []
@@ -127,6 +127,7 @@ class Scrabble
         check = check_columns(row, j, tiles[i][:letter])
         if check.length > 1
           if valid_word?(check)
+            check = double_triple(row, j, tiles[i][:letter], check)
             shared_letter = true
             word_arr << check
           else
@@ -165,6 +166,7 @@ class Scrabble
         check = check_rows(j, col, tiles[i][:letter])
         if check.length > 1
           if valid_word?(check)
+            check = double_triple(j, col, tiles[i][:letter], check)
             shared_letter = true
             word_arr << check
           else
@@ -240,18 +242,27 @@ class Scrabble
     check_left(row, col) + letter + check_right(row, col)
   end
 
-  double_letter = [[6,6], [8,8], [6,8], [8,6], [7,3], [7,11], [6,2], [6,12], [8,12], [8,2],
+
+  DOUBLE_LETTER = [[6,6], [8,8], [6,8], [8,6], [7,3], [7,11], [6,2], [6,12], [8,12], [8,2],
                    [3,0], [3,14], [11,0], [11,14], [0,3], [0,11], [14,3], [14,11],
                    [2,6], [2,8], [12,6], [12,8], [3,7], [11,7]]
 
-  triple_letter = [[1,5], [1,9], [5,5], [5,9], [9,5], [9,9], [13,5], [13,9],
+  TRIPLE_LETTER = [[1,5], [1,9], [5,5], [5,9], [9,5], [9,9], [13,5], [13,9],
                    [1,5], [1,9], [13,5], [13,9]]
 
-  double_word = [[7,7], [1,1], [1,13], [13,1], [13,13], [2,2], [2,12], [12,2], [12,12],
+  DOUBLE_WORD = [[7,7], [1,1], [1,13], [13,1], [13,13], [2,2], [2,12], [12,2], [12,12],
                  [3,3], [3,11], [11,3], [11,11], [4,4], [4,10], [10,4], [10,10]]
 
-  triple_word = [[0,0], [0,7], [0,14], [7,0], [14,0], [7,14], [14,7], [14,14]]
+  TRIPLE_WORD = [[0,0], [0,7], [0,14], [7,0], [14,0], [7,14], [14,7], [14,14]]
 
+  def double_triple(row, col, letter, word)
+    result = word
+    result += letter if DOUBLE_LETTER.include?([row,col])
+    result += (letter * 2) if TRIPLE_LETTER.include?([row,col])
+    result = result * 2 if DOUBLE_WORD.include?([row,col])
+    result = result * 3 if TRIPLE_WORD.include?([row,col])
+    result
+  end
 
   double_letter = {}
   triple_letter = {}
