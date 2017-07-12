@@ -146,7 +146,7 @@ class Scrabble
     end
 
     word = check_left(row, first) + word + check_right(row, last)
-    p word
+    shared_letter = single_letter(tiles[0]) if tiles.length == 1
     return "" if !shared_letter && !@first_flag
 
     if valid_word?(word)
@@ -155,6 +155,16 @@ class Scrabble
     else
       ""
     end
+  end
+
+  def single_letter(tile)
+    row, col = tile[:row], tile[:col]
+    p [row, col]
+    word = "#{check_left(row, col)}#{word}#{check_right(row, col)}"
+    word2 = check_up(row, col) + word + check_down(row, col)
+    word = word.length > 1 ? word : nil
+    word2 = word2.length > 1 ? word2 : nil
+    (word && valid_word?(word)) || (word2 && valid_word?(word2))
   end
 
   def col_test(tiles)
@@ -224,7 +234,6 @@ class Scrabble
   def check_left(row, col)
     result = ""
     i = col - 1
-    p board[row][i]
     while inbounds?(i) && !board[row][i].nil?
       result = board[row][i] + result
       i -= 1
@@ -306,9 +315,15 @@ if __FILE__ == $PROGRAM_NAME
   p game
   p score #{:valid=>true, :score=>5}
 
-  tiles2 = [["s",7,14]]
+  tiles2 = [["m", 6, 13], ["y", 6, 14]]
   tiles2 = Scrabble.make_tiles(tiles2)
   score = game.play_tiles(tiles2)
+  p game
+  p score
+
+  tiles3 = [["s",7,14]]
+  tiles3 = Scrabble.make_tiles(tiles3)
+  score = game.play_tiles(tiles3)
   p game
   p score
 end
