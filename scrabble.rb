@@ -289,11 +289,11 @@ class Scrabble
     result * multiplier
   end
 
-  double_letter = {}
-  triple_letter = {}
-
-  double_word = {}
-  triple_word = {}
+  def make_tiles(tiles)
+    tiles.map do |tile|
+      { letter: tile[0], row: tile[1], col: tile[2] }
+    end
+  end
 
 
 end
@@ -301,7 +301,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   game = Scrabble.new
   p game
-  tiles = [{ letter: "h", row: 7, col: 7 }, { letter: "i", row: 7, col: 8 }]
+  tiles = [["h",7,7], ["i",7,8]]
+  tiles = game.make_tiles(tiles)
   score = game.play_tiles(tiles)
   p game
   p score #{:valid=>true, :score=>5}
