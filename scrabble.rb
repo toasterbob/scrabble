@@ -116,7 +116,6 @@ class Scrabble
     row = tiles[0][:row] #what row is it in?
     first, last = tiles[0][:col], tiles[-1][:col] #first and last letter
     return "" unless inbounds?(first) && inbounds?(last) # are they inbounds
-
     word = ""
     word_arr = []
     shared_letter = false
@@ -146,8 +145,9 @@ class Scrabble
       end
     end
 
+    word = check_left(row, first) + word + check_right(row, last)
+    p word
     return "" if !shared_letter && !@first_flag
-    word = check_right(row, first) + word + check_left(row, last)
 
     if valid_word?(word)
       word = double_triple_checker(word, tiles)
@@ -214,8 +214,8 @@ class Scrabble
   def check_right(row, col)
     result = ""
     i = col + 1
-    while inbounds?(i) && !board[i][col].nil?
-      result += board[i][col]
+    while inbounds?(i) && !board[row][i].nil?
+      result += board[row][i]
       i += 1
     end
     result
@@ -224,8 +224,9 @@ class Scrabble
   def check_left(row, col)
     result = ""
     i = col - 1
-    while inbounds?(i) && !board[i][col].nil?
-      result += board[i][col]
+    p board[row][i]
+    while inbounds?(i) && !board[row][i].nil?
+      result = board[row][i] + result 
       i -= 1
     end
     result
