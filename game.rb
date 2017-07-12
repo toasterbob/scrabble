@@ -22,6 +22,6 @@ if __FILE__ == $PROGRAM_NAME
   tiles3 = [["s",7,14], ["t",8,14]]
   tiles3 = Scrabble.make_tiles(tiles3)
   score = game.play_tiles(tiles3)
-  p game
+  p game.board
   p score
 end
