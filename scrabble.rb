@@ -142,7 +142,13 @@ class Scrabble
 
     return "" if !shared_letter && !@first_flag
     word = check_right(row, first) + word + check_left(row, last)
-    valid_word?(word) ? word + word_arr.join("") : ""
+
+    if valid_word?(word)
+      word = double_triple_checker(word, tiles)
+      word + word_arr.join("")
+    else
+      ""
+    end
   end
 
   def col_test(tiles)
@@ -181,7 +187,13 @@ class Scrabble
 
     return "" if !shared_letter && !@first_flag
     word = check_up(first, col) + word + check_down(last, col)
-    valid_word?(word) ? word + word_arr.join("") : ""
+
+    if valid_word?(word)
+      word = double_triple_checker(word, tiles)
+      word + word_arr.join("")
+    else
+      ""
+    end
   end
 
   def inbounds?(num)
@@ -262,6 +274,19 @@ class Scrabble
     result = result * 2 if DOUBLE_WORD.include?([row,col])
     result = result * 3 if TRIPLE_WORD.include?([row,col])
     result
+  end
+
+  def double_triple_checker(word, tiles)
+    multiplier = 1
+    result = word
+    tiles.each do |tile|
+      row, col, letter = tile[:row], tile[:col], tile[:letter]
+      result += letter if DOUBLE_LETTER.include?([row,col])
+      result += (letter * 2) if TRIPLE_LETTER.include?([row,col])
+      multiplier *= 2 if DOUBLE_WORD.include?([row,col])
+      multiplier *= 3 if TRIPLE_WORD.include?([row,col])
+    end
+    result * multiplier
   end
 
   double_letter = {}
