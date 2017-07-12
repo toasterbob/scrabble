@@ -20,6 +20,12 @@ class Scrabble
     @score = {}
   end
 
+  def self.make_tiles(tiles)
+    tiles.map do |tile|
+      { letter: tile[0], row: tile[1], col: tile[2] }
+    end
+  end
+
   def create_board
     Array.new(15) { Array.new(15) }
   end
@@ -289,21 +295,20 @@ class Scrabble
     result * multiplier
   end
 
-  def make_tiles(tiles)
-    tiles.map do |tile|
-      { letter: tile[0], row: tile[1], col: tile[2] }
-    end
-  end
-
-
 end
 
 if __FILE__ == $PROGRAM_NAME
   game = Scrabble.new
   p game
-  tiles = [["h",7,7], ["i",7,8]]
-  tiles = game.make_tiles(tiles)
+  tiles = [["d",7,7], ["r",7,8], ["i",7,9], ["z",7,10], ["z",7,11], ["l",7,12], ["e",7,13]]
+  tiles = Scrabble.make_tiles(tiles)
   score = game.play_tiles(tiles)
   p game
   p score #{:valid=>true, :score=>5}
+
+  tiles2 = [["s",7,14]]
+  tiles2 = Scrabble.make_tiles(tiles2)
+  score = game.play_tiles(tiles2)
+  p game
+  p score
 end
