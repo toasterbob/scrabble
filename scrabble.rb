@@ -226,7 +226,7 @@ class Scrabble
     i = col - 1
     p board[row][i]
     while inbounds?(i) && !board[row][i].nil?
-      result = board[row][i] + result 
+      result = board[row][i] + result
       i -= 1
     end
     result
@@ -236,7 +236,7 @@ class Scrabble
     result = ""
     i = row - 1
     while inbounds?(i) && !board[i][col].nil?
-      result += board[i][col]
+      result = board[i][col] + result
       i -= 1
     end
     result
@@ -249,7 +249,6 @@ class Scrabble
       result += board[i][col]
       i += 1
     end
-    result
     result
   end
 
