@@ -164,7 +164,7 @@ class Scrabble
     word2 = check_up(row, col) + word + check_down(row, col)
     word = word.length > 1 ? word : nil
     word2 = word2.length > 1 ? word2 : nil
-    (word && valid_word?(word)) || (word2 && valid_word?(word2))
+    (word2.nil? && valid_word?(word)) || (word.nil? && valid_word?(word2)) || (valid_word?(word) && valid_word?(word2))
   end
 
   def col_test(tiles)
